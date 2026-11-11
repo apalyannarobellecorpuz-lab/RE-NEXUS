@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Data Center Expansion | RE:NEXUS</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg:#121c2d;
+    --card:#1d2c42;
+    --card2:#283a54;
+    --blue:#70d5ff;
+    --yellow:#ffe477;
+    --orange:#ffbd83;
+    --red:#ff8995;
+    --text:#f7f9ff;
+    --muted:#cbd7e9;
+}
+* {box-sizing:border-box}
+html {scroll-behavior:smooth}
+body {
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Inter,sans-serif;
+    font-size:18px;
+    line-height:1.75;
+}
+h1,h2,h3,h4,.heading {font-family:Outfit,sans-serif}
+button {cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible {
+    outline:3px solid var(--yellow);
+    outline-offset:3px;
+}
+.glass-nav {
+    background:rgba(20,31,48,.96);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid #344865;
+}
+.dark-card {
+    background:var(--card);
+    border:1px solid #344865;
+    border-radius:25px;
+    box-shadow:0 12px 35px rgba(0,0,0,.25);
+}
+.inner-card {
+    background:#253750;
+    border:1px solid #3b5170;
+    border-radius:20px;
+}
+.tab-content {display:none;animation:sectionIn .4s ease}
+.tab-content.active {display:block}
+@keyframes sectionIn {
+    from {opacity:0;transform:translateY(12px)}
+    to {opacity:1;transform:translateY(0)}
+}
+.nav-btn {
+    padding:10px 14px;
+    border-radius:13px;
+    font-weight:700;
+    color:var(--muted);
+    transition:.25s;
+    white-space:nowrap;
+}
+.nav-btn:hover {
+    color:white;
+    background:#2a3e5c;
+    transform:translateY(-2px);
+}
+.nav-btn.active-tab {
+    color:#121c2d;
+    background:var(--yellow);
+    box-shadow:0 5px 18px #ffdf6544;
+}
+.action-btn {
+    background:linear-gradient(110deg,#55c7ff,#8ce4ff);
+    color:#0d1829;
+    padding:13px 20px;
+    border-radius:14px;
+    font-weight:900;
+    transition:.25s;
+}
+.action-btn:hover {transform:translateY(-3px);filter:brightness(1.08)}
+.card-hover {
+    transition:transform .25s,border-color .25s,box-shadow .25s;
+}
+.card-hover:hover {
+    transform:translateY(-5px);
+    border-color:var(--yellow);
+    box-shadow:0 12px 25px #0006;
+}
+.accent-blue {color:var(--blue)}
+.accent-yellow {color:var(--yellow)}
+.accent-orange {color:var(--orange)}
+.accent-red {color:var(--red)}
+.muted {color:var(--muted)}
+.pill {
+    display:inline-block;
+    padding:5px 12px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+.quiz-option {
+    display:flex;
+    gap:13px;
+    align-items:center;
+    background:#2f4463;
+    border:2px solid transparent;
+    padding:14px 16px;
+    border-radius:15px;
+    cursor:pointer;
+    transition:.2s;
+    color:white;
+}
+.quiz-option:hover {
+    background:#2b3d59;
+    border-color:var(--blue);
+    transform:translateX(4px);
+}
+.quiz-option:has(input:checked) {
+    border-color:var(--yellow);
+    background:#334561;
+}
+.quiz-option input {
+    accent-color:#55c7ff;
+    width:19px;
+    height:19px;
+}
+.quiz-question {
+    background:#253750;
+    border:1px solid #3b5170;
+    border-radius:19px;
+    padding:20px;
+    transition:.25s;
+}
+.quiz-question:hover {border-color:#75d8ff}
+#survey-modal {
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:rgba(12,18,28,.97);
+    backdrop-filter:blur(15px);
+    overflow-y:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    transition:opacity .3s ease;
+}
+.quiz-shell {
+    width:100%;
+    max-width:760px;
+    background:linear-gradient(145deg,#2b4566,#1b2b42);
+    border:2px solid #48658a;
+    border-radius:30px;
+    padding:clamp(20px,4vw,38px);
+    box-shadow:0 25px 80px #0009;
+    position:relative;
+    overflow:hidden;
+}
+.quiz-shell:before {
+    content:"";
+    position:absolute;
+    width:230px;height:230px;
+    border-radius:50%;
+    background:#55c7ff22;
+    top:-100px;right:-70px;
+    pointer-events:none;
+}
+.quiz-top {
+    text-align:center;
+    position:relative;
+    z-index:1;
+}
+.quiz-progress {
+    height:9px;
+    background:#0e1624;
+    border-radius:20px;
+    overflow:hidden;
+    margin:20px 0;
+}
+.quiz-progress div {
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,#55c7ff,#ffdf65);
+    transition:width .3s;
+}
+.quiz-decoration {
+    position:fixed;
+    pointer-events:none;
+    opacity:.17;
+    font-size:40px;
+    animation:float 5s ease-in-out infinite;
+}
+@keyframes float {
+    0%,100% {transform:translateY(0) rotate(0)}
+    50% {transform:translateY(-18px) rotate(8deg)}
+}
+.hero-banner {
+    background:linear-gradient(125deg,#274e6c,#2f496b 55%,#544269);
+    border:1px solid #4a6d91;
+    border-radius:25px;
+    padding:30px;
+    position:relative;
+    overflow:hidden;
+}
+.hero-banner:after {
+    content:"";
+    position:absolute;
+    width:250px;height:250px;
+    border-radius:50%;
+    right:-75px;top:-95px;
+    background:#ffffff0c;
+}
+.hero-icon {
+    width:62px;height:62px;
+    border-radius:18px;
+    display:grid;place-items:center;
+    font-size:27px;
+    background:#ffffff17;
+}
+.metric {
+    text-align:center;
+    padding:22px 12px;
+    border-radius:19px;
+    background:#253750;
+    border:1px solid #344865;
+}
+.metric h3 {font-size:clamp(25px,4vw,38px);font-weight:900}
+.metric p {font-size:14px;color:var(--muted)}
+.photo {
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    display:block;
+    background:#1c2b3f;
+}
+.photo-tall {height:320px}
+.image-wrap {
+    border-radius:17px;
+    overflow:hidden;
+    border:1px solid #3c5478;
+    position:relative;
+}
+.image-wrap img {transition:transform .5s}
+.image-wrap:hover img {transform:scale(1.05)}
+
+/* PREVIEW LINK POPUPS */
+.preview-trigger-wrap {
+    position:relative;
+    display:inline-block;
+}
+.preview-card {
+    position:absolute;
+    bottom:125%;
+    left:50%;
+    transform:translateX(-50%) translateY(10px);
+    width:310px;
+    background:#182639;
+    border:2px solid #50719b;
+    border-radius:16px;
+    padding:12px;
+    box-shadow:0 15px 40px rgba(0,0,0,.6);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+    z-index:99;
+}
+.preview-card:after {
+    content:"";
+    position:absolute;
+    top:100%;
+    left:50%;
+    transform:translateX(-50%);
+    border-width:8px;
+    border-style:solid;
+    border-color:#50719b transparent transparent transparent;
+}
+.preview-trigger-wrap:hover .preview-card {
+    opacity:1;
+    pointer-events:auto;
+    transform:translateX(-50%) translateY(0);
+}
+.preview-thumb {
+    width:100%;
+    height:130px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:8px;
+}
+
+#confetti-canvas {
+    position:fixed;
+    inset:0;
+    z-index:2000;
+    pointer-events:none;
+}
+.sound-btn {
+    background:#1e3047;
+    color:white;
+    padding:10px 14px;
+    border-radius:13px;
+    border:1px solid #41597a;
+    font-weight:800;
+    transition:.2s;
+}
+.sound-btn:hover {background:#2d4666}
+.mobile-nav {display:none}
+@media(max-width:900px) {
+    .desktop-nav {display:none!important}
+    .mobile-nav {display:block}
+    .main-grid {grid-template-columns:1fr!important}
+    .sidebar {position:static!important}
+}
+@media(max-width:600px) {
+    body {font-size:17px}
+    .hero-banner {padding:22px}
+    .dark-card {padding:22px!important}
+    .quiz-shell {padding:19px}
+    .photo {height:190px}
+    .preview-card {width:260px;left:0;transform:none}
+    .preview-trigger-wrap:hover .preview-card {transform:none}
+}
+@media(prefers-reduced-motion:reduce) {
+    *,*:before,*:after {
+        animation-duration:.01ms!important;
+        transition-duration:.01ms!important;
+        scroll-behavior:auto!important;
+    }
+}
+
+.quiz-answer{min-height:94px;padding:17px 16px;border:3px solid #ffffff30;border-radius:18px;color:#fff;font-size:1.03rem;font-weight:900;display:flex;align-items:center;gap:13px;text-align:left;box-shadow:0 5px 0 #121c2d55;transition:transform .15s,filter .15s;}
+.quiz-answer:hover{transform:translateY(-3px);filter:brightness(1.1)}
+.quiz-answer:disabled{cursor:default;opacity:.9}
+.quiz-answer-icon{font-size:1.7rem;min-width:32px;text-align:center}
+.quiz-answer.answer-correct{outline:4px solid #9ff2c8;filter:brightness(1.12)}
+.quiz-answer.answer-wrong{outline:4px solid #ff8995;filter:brightness(.8)}
+#quiz-timer{background:#2e4463;padding:7px 12px;border-radius:12px;color:#ffe477}
+#quiz-score-live{background:#2e4463;padding:7px 12px;border-radius:12px;color:#fff}
+
+.pulse-ring {
+    position:relative;
+}
+.pulse-ring:before {
+    content:"";
+    position:absolute;
+    inset:-4px;
+    border-radius:24px;
+    border:2px solid var(--blue);
+    opacity:0;
+    animation:pulseBorder 3s infinite;
+}
+@keyframes pulseBorder {
+    0% {transform:scale(.98);opacity:.8}
+    50% {transform:scale(1.02);opacity:0}
+    100% {transform:scale(.98);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- PRE-ENTRY QUIZ -->
+<div id="survey-modal">
+    <span class="quiz-decoration" style="top:9%;left:8%">✦</span>
+    <span class="quiz-decoration" style="top:22%;right:9%;animation-delay:1s">✧</span>
+    <span class="quiz-decoration" style="bottom:12%;left:12%;animation-delay:2s">★</span>
+
+    <div class="quiz-shell" id="quiz-shell">
+        <div class="quiz-top" id="quiz-intro">
+            <span class="pill" style="background:var(--yellow);color:#17253a"><i class="fa-solid fa-bolt"></i> RE:NEXUS GAME TIME</span>
+            <h1 class="heading text-4xl sm:text-5xl font-black mt-4">Ready, set, think!</h1>
+            <p class="muted mt-3">Play a quick five-question challenge about AI data centers, water, and electricity. You have 15 seconds for each question!</p>
+            <div class="flex justify-center gap-4 mt-5 text-3xl"><span>💧</span><span>⚡</span><span>🌎</span><span>🧠</span><span>🎉</span></div>
+            <button id="start-quiz" type="button" class="action-btn w-full text-xl mt-7" onclick="startQuiz()">START THE QUIZ <i class="fa-solid fa-play ml-2"></i></button>
+            <p class="muted text-xs mt-4">Sound starts after you press Start. You can mute it anytime.</p>
+        </div>
+        <div id="quiz-play" class="hidden">
+            <div class="flex items-center justify-between gap-3 flex-wrap">
+                <span class="pill" style="background:var(--yellow);color:#17253a">⚡ QUICK QUIZ</span>
+                <div class="flex gap-4 font-black"><span id="quiz-score-live">⭐ 0 pts</span><span id="quiz-timer">⏱ 15</span></div>
+            </div>
+            <div class="quiz-progress"><div id="quiz-progress-bar"></div></div>
+            <p id="quiz-progress-text" class="muted text-sm text-center mb-4">Question 1 of 5</p>
+            <div class="quiz-question">
+                <h2 id="quiz-question-text" class="heading text-2xl sm:text-3xl font-black text-center"></h2>
+                <div id="quiz-answers" class="grid sm:grid-cols-2 gap-3 mt-6"></div>
+                <p id="quiz-feedback" class="text-center font-bold mt-5" aria-live="polite"></p>
+                <button id="quiz-next" type="button" class="action-btn w-full mt-4 hidden" onclick="nextQuizQuestion()">NEXT QUESTION <i class="fa-solid fa-arrow-right ml-2"></i></button>
+            </div>
+        </div>
+        <div id="quiz-result" class="hidden text-center mt-3 p-6 rounded-2xl" style="background:#2b4261;border:1px solid #5a7ca6">
+            <div class="text-6xl mb-3" id="quiz-emoji">🎉</div>
+            <h2 class="heading text-3xl font-black" id="quiz-score"></h2>
+            <p class="muted mt-2" id="quiz-message"></p>
+            <button id="enter-site" type="button" class="action-btn mt-5 w-full" onclick="enterSite()">ENTER THE WEBSITE <i class="fa-solid fa-arrow-right ml-2"></i></button>
+        </div>
+        <p class="text-center muted text-xs mt-5">RE:NEXUS • The connection point of rebirth</p>
+    </div>
+</div>
+
+<!-- HEADER -->
+<header class="glass-nav sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-5 py-3 flex justify-between items-center gap-4">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('home')">
+            <div class="w-14 h-14 flex-shrink-0">
+                <svg viewBox="0 0 500 500" class="w-full h-full drop-shadow-[0_0_12px_rgba(255,94,94,0.8)]">
+                    <circle cx="250" cy="250" r="230" fill="none" stroke="#FFFFFF" stroke-width="12"/>
+                    <circle cx="180" cy="190" r="125" fill="#38B6FF" opacity="0.95"/>
+                    <circle cx="320" cy="190" r="125" fill="#FFDE59" opacity="0.95"/>
+                    <circle cx="250" cy="330" r="125" fill="#FF914D" opacity="0.95"/>
+                    <circle cx="250" cy="250" r="225" fill="none" stroke="#000000" stroke-width="8"/>
+                    <polygon points="250,30 75,330 425,330" fill="#FF5E5E" stroke="#000000" stroke-width="6"/>
+                    <path d="M 160 190 Q 210 130 250 165 T 340 140 Q 290 110 250 135 T 160 190 Z" fill="#000000"/>
+                    <path d="M 180 160 Q 220 100 270 130 T 320 120" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round"/>
+                    <path d="M 130 330 L 130 250 L 160 250 L 160 275 L 185 240 L 185 275 L 210 230 L 210 330 Z" fill="#000000"/>
+                    <path d="M 215 330 L 215 190 L 245 190 L 245 330 Z" fill="#000000"/>
+                    <path d="M 255 330 L 255 170 L 285 170 L 285 330 Z" fill="#000000"/>
+                    <path d="M 295 330 L 295 220 L 375 220 L 375 330 Z" fill="#000000"/>
+                    <rect x="305" y="235" width="22" height="22" fill="#FFDE59"/>
+                    <rect x="340" y="235" width="22" height="22" fill="#FFDE59"/>
+                    <rect x="305" y="275" width="22" height="22" fill="#FFDE59"/>
+                    <rect x="340" y="275" width="22" height="22" fill="#FFDE59"/>
+                </svg>
+            </div>
+            <div>
+                <span class="pill" style="background:#55c7ff;color:#102039">Academic Project</span>
+                <div class="font-bold text-sm sm:text-base">RE:NEXUS</div>
+                <div class="muted text-xs">The connection point of rebirth • Section 8-1</div>
+            </div>
+        </div>
+
+        <nav class="desktop-nav flex gap-1 items-center">
+            <button class="nav-btn active-tab" id="btn-home" onclick="switchTab('home')">Home</button>
+            <button class="nav-btn" id="btn-mission" onclick="switchTab('mission')">Mission</button>
+            <button class="nav-btn" id="btn-about" onclick="switchTab('about')">About</button>
+            <button class="nav-btn" id="btn-findings" onclick="switchTab('findings')">Findings</button>
+            <button class="nav-btn" id="btn-impact" onclick="switchTab('impact')">Impact</button>
+            <button class="nav-btn" id="btn-references" onclick="switchTab('references')">References</button>
+        </nav>
+
+        <button class="sound-btn" id="sound-toggle" onclick="toggleMusic()" aria-label="Toggle background music">
+            <i class="fa-solid fa-volume-xmark"></i>
+        </button>
+    </div>
+
+    <div class="mobile-nav px-4 pb-3 overflow-x-auto">
+        <div class="flex gap-2 min-w-max">
+            <button class="nav-btn active-tab" id="mobile-home" onclick="switchTab('home')">Home</button>
+            <button class="nav-btn" id="mobile-mission" onclick="switchTab('mission')">Mission</button>
+            <button class="nav-btn" id="mobile-about" onclick="switchTab('about')">About</button>
+            <button class="nav-btn" id="mobile-findings" onclick="switchTab('findings')">Findings</button>
+            <button class="nav-btn" id="mobile-impact" onclick="switchTab('impact')">Impact</button>
+            <button class="nav-btn" id="mobile-references" onclick="switchTab('references')">References</button>
+        </div>
+    </div>
+</header>
+
+<div class="max-w-7xl mx-auto px-5 py-7 grid main-grid grid-cols-1 lg:grid-cols-12 gap-7">
+
+<main class="lg:col-span-8 space-y-7">
+
+    <!-- QUICK NAV -->
+    <div class="dark-card p-4 flex justify-between items-center gap-3">
+        <button onclick="navigateTab(-1)" class="sound-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span class="hidden sm:inline">Previous</span>
+        </button>
+        <div class="text-center">
+            <span class="text-xs muted uppercase tracking-widest">Current Section</span>
+            <div class="heading font-black text-lg sm:text-xl" id="current-tab-label">Home Dashboard</div>
+        </div>
+        <button onclick="navigateTab(1)" class="sound-btn">
+            <span class="hidden sm:inline">Next</span>
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <!-- HOME -->
+    <section id="tab-home" class="tab-content active space-y-7">
+
+        <div class="dark-card p-6 sm:p-9 space-y-8 pulse-ring">
+            <div id="survey-result-badge" class="hidden p-4 rounded-2xl text-center font-bold" style="background:#55c7ff22;color:var(--blue)">
+                <i class="fa-solid fa-circle-check mr-2"></i>
+                Quiz completed! Welcome to our research dashboard.
+            </div>
+
+            <div class="hero-banner">
+                <span class="pill" style="background:#ffdf65;color:#18243a">Research & Environmental Awareness</span>
+                <h1 class="heading text-3xl sm:text-5xl font-black leading-tight mt-5">
+                    The Impact of AI Data Center Expansion on Local Electricity Rates and Freshwater Availability for Residential Communities
+                </h1>
+                <p class="mt-4 muted max-w-2xl">
+                    Understanding the environmental costs behind the technology we use every day.
+                </p>
+                <div class="flex gap-3 flex-wrap mt-6">
+                    <button class="action-btn" onclick="switchTab('mission')">Our Mission <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                    <button class="sound-btn" onclick="switchTab('findings')">View Research</button>
+                </div>
+            </div>
+
+            <div class="rounded-3xl p-6 sm:p-8 space-y-3" style="background:linear-gradient(120deg,#2b5375,#3b4a6b);border:1px solid #527599">
+                <h2 class="heading text-2xl font-black accent-yellow">
+                    <i class="fa-solid fa-bullhorn mr-2"></i> Why We Created This Website
+                </h2>
+                <p class="text-lg">
+                    Our website raises awareness about the environmental costs of AI, particularly its freshwater consumption and increasing pressure on local power grids. Through global research and current events, we encourage people to understand these risks and support responsible innovation.
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="flex flex-wrap justify-between items-center gap-3">
+                    <h2 class="heading text-2xl font-black">Resource Consumption Key Metrics</h2>
+                    <button class="sound-btn text-sm" onclick="toggleUnits()">
+                        <i class="fa-solid fa-arrows-rotate mr-2"></i>
+                        <span id="toggle-label">Real-world comparison</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="metric card-hover">
+                        <i class="fa-solid fa-bolt accent-yellow text-2xl"></i>
+                        <h3 id="stat-1">65%</h3>
+                        <p id="stat-desc-1">Operating budget spent on power</p>
+                    </div>
+                    <div class="metric card-hover">
+                        <i class="fa-solid fa-droplet accent-blue text-2xl"></i>
+                        <h3 id="stat-2">900M Gal</h3>
+                        <p id="stat-desc-2">Annual freshwater consumption per hub</p>
+                    </div>
+                    <div class="metric card-hover">
+                        <i class="fa-solid fa-house accent-red text-2xl"></i>
+                        <h3 id="stat-3">+10–20%</h3>
+                        <p id="stat-desc-3">Residential electric tariff hike</p>
+                    </div>
+                </div>
+                <p class="muted text-xs">Figures shown are research figures from the group's project materials. Consult the cited sources for context and verification.</p>
+            </div>
+
+            <div class="border-t border-slate-600 pt-7 space-y-5">
+                <h2 class="heading text-2xl sm:text-3xl font-black">A closer look at the issue</h2>
+                <p class="muted">AI infrastructure depends on real-world resources: electricity, cooling systems, and water.</p>
+                <div class="grid sm:grid-cols-3 gap-4">
+                    <figure class="image-wrap"><img class="photo" loading="lazy" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=85" alt="Rows of servers inside a data center"><figcaption class="p-3 text-sm font-bold">Data center servers</figcaption></figure>
+                    <figure class="image-wrap"><img class="photo" loading="lazy" src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=900&q=85" alt="Electricity transmission towers"><figcaption class="p-3 text-sm font-bold">Electricity infrastructure</figcaption></figure>
+                    <figure class="image-wrap"><img class="photo" loading="lazy" src="https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=900&q=85" alt="Freshwater flowing through a natural stream"><figcaption class="p-3 text-sm font-bold">Freshwater resources</figcaption></figure>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-600 pt-7 space-y-5">
+                <h2 class="heading text-3xl font-black accent-orange">Creator Team</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <div class="inner-card p-4 text-center font-bold card-hover">Alyanna Corpuz</div>
+                    <div class="inner-card p-4 text-center font-bold card-hover">Heidi Laude</div>
+                    <div class="inner-card p-4 text-center font-bold card-hover">Angelica Pardo</div>
+                    <div class="inner-card p-4 text-center font-bold card-hover">Jada Nicolas</div>
+                    <div class="inner-card p-4 text-center font-bold card-hover">Mhyrtyl Payo</div>
+                    <div class="inner-card p-4 text-center font-bold card-hover">Luiz Jacob Cruz</div>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-600 pt-7 space-y-5">
+                <div class="text-center">
+                    <span class="pill" style="background:#ff777e22;color:var(--red)">Group Emblem & Meaning</span>
+                    <h2 class="heading text-3xl font-black mt-2">Our Official Group Logo</h2>
+                </div>
+                <div class="flex justify-center py-3">
+                    <div class="w-44 h-44 sm:w-52 sm:h-52 drop-shadow-[0_0_18px_rgba(255,119,126,0.35)]">
+                        <svg viewBox="0 0 500 500" class="w-full h-full drop-shadow-[0_0_12px_rgba(255,94,94,0.8)]">
+                            <circle cx="250" cy="250" r="230" fill="none" stroke="#FFFFFF" stroke-width="12"/>
+                            <circle cx="180" cy="190" r="125" fill="#38B6FF" opacity="0.95"/>
+                            <circle cx="320" cy="190" r="125" fill="#FFDE59" opacity="0.95"/>
+                            <circle cx="250" cy="330" r="125" fill="#FF914D" opacity="0.95"/>
+                            <circle cx="250" cy="250" r="225" fill="none" stroke="#000000" stroke-width="8"/>
+                            <polygon points="250,30 75,330 425,330" fill="#FF5E5E" stroke="#000000" stroke-width="6"/>
+                            <path d="M 160 190 Q 210 130 250 165 T 340 140 Q 290 110 250 135 T 160 190 Z" fill="#000000"/>
+                            <path d="M 180 160 Q 220 100 270 130 T 320 120" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round"/>
+                            <path d="M 130 330 L 130 250 L 160 250 L 160 275 L 185 240 L 185 275 L 210 230 L 210 330 Z" fill="#000000"/>
+                            <path d="M 215 330 L 215 190 L 245 190 L 245 330 Z" fill="#000000"/>
+                            <path d="M 255 330 L 255 170 L 285 170 L 285 330 Z" fill="#000000"/>
+                            <path d="M 295 330 L 295 220 L 375 220 L 375 330 Z" fill="#000000"/>
+                            <rect x="305" y="235" width="22" height="22" fill="#FFDE59"/>
+                            <rect x="340" y="235" width="22" height="22" fill="#FFDE59"/>
+                            <rect x="305" y="275" width="22" height="22" fill="#FFDE59"/>
+                            <rect x="340" y="275" width="22" height="22" fill="#FFDE59"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="inner-card p-5 card-hover">
+                        <h3 class="accent-blue font-bold">🔵 Blue Circle</h3>
+                        <p class="muted text-sm">Represents water, cleanliness, and the importance of protecting natural resources.</p>
+                    </div>
+                    <div class="inner-card p-5 card-hover">
+                        <h3 class="accent-yellow font-bold">🟡 Yellow Circle</h3>
+                        <p class="muted text-sm">Represents the sun, energy, hope, and a brighter future.</p>
+                    </div>
+                    <div class="inner-card p-5 card-hover">
+                        <h3 class="accent-orange font-bold">🟠 Orange Circle</h3>
+                        <p class="muted text-sm">Represents the Earth, warmth, and the environment.</p>
+                    </div>
+                    <div class="inner-card p-5 card-hover">
+                        <h3 class="accent-red font-bold">🔺 Red Triangle</h3>
+                        <p class="muted text-sm">Represents strength, warning, and the serious effects of industrial activities on nature.</p>
+                    </div>
+                    <div class="inner-card p-5 card-hover">
+                        <h3 class="font-bold">⚫ Black Circle</h3>
+                        <p class="muted text-sm">Represents unity and the connection between all elements.</p>
+                    </div>
+                    <div class="inner-card p-5 card-hover">
+                        <h3 class="accent-orange font-bold">🏭 Factory and Smoke</h3>
+                        <p class="muted text-sm">Represent industrialization, pollution, and the effects of human activities on the environment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION -->
+    <section id="tab-mission" class="tab-content">
+        <div class="dark-card p-6 sm:p-9 space-y-8">
+            <div>
+                <span class="pill" style="background:#ff777e22;color:var(--red)">Final Statement</span>
+                <h1 class="heading text-4xl font-black mt-3">Our Mission & Purpose</h1>
+            </div>
+
+            <div class="hero-banner">
+                <h2 class="heading text-2xl font-bold accent-yellow">
+                    <i class="fa-solid fa-shield-halved mr-2"></i>
+                    Standing Up for Environmental & Public Awareness
+                </h2>
+                <p class="mt-4 text-lg">
+                    Our website raises awareness about the environmental costs of AI, particularly its freshwater consumption and increasing pressure on local power grids. Through global research and current events, we encourage people to understand these risks and support responsible innovation.
+                </p>
+            </div>
+
+            <div class="space-y-5">
+                <h2 class="heading text-3xl font-black text-center">Uniting Generations for Change</h2>
+                <p class="muted text-center">Both digital natives and community stewards must come together to understand the hidden environmental costs of technology expansion.</p>
+
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div class="inner-card p-6 card-hover">
+                        <i class="fa-solid fa-laptop-code accent-blue text-4xl"></i>
+                        <h3 class="heading text-2xl font-bold mt-3">For the Younger Generation</h3>
+                        <span class="pill mt-3" style="background:#55c7ff22;color:var(--blue)">Digital Natives & Future Tech Builders</span>
+                        <p class="muted mt-4">As youth using AI daily for studies and creative projects, we must look beyond the screen. We want young tech enthusiasts to realize that every prompt and algorithm query demands real physical water from our lakes and rivers. Building ethical technology means advocating for sustainable computing that protects our natural future.</p>
+                    </div>
+
+                    <div class="inner-card p-6 card-hover">
+                        <i class="fa-solid fa-users-between-lines accent-yellow text-4xl"></i>
+                        <h3 class="heading text-2xl font-bold mt-3">For the Older Generation</h3>
+                        <span class="pill mt-3" style="background:#ffdf6522;color:var(--yellow)">Community Leaders, Parents & Decision Makers</span>
+                        <p class="muted mt-4">We need parents, local leaders, and older citizens to recognize that AI expansion directly affects monthly household utility budgets and tap water reliability. Older generations have the regulatory voice and voting power to demand strict municipal limits on corporate water extraction before local reservoirs dry up.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-600 pt-7 grid sm:grid-cols-3 gap-4">
+                <div class="inner-card p-5 text-center card-hover">
+                    <i class="fa-solid fa-droplet accent-blue text-4xl"></i>
+                    <h3 class="font-bold text-xl mt-3">Protect Freshwater</h3>
+                    <p class="muted text-sm mt-2">Preserve natural water resources for communities rather than using them without proper consideration.</p>
+                </div>
+                <div class="inner-card p-5 text-center card-hover">
+                    <i class="fa-solid fa-bolt accent-yellow text-4xl"></i>
+                    <h3 class="font-bold text-xl mt-3">Fair Utility Bills</h3>
+                    <p class="muted text-sm mt-2">Prevent data center power expansion from unfairly increasing residential electricity costs.</p>
+                </div>
+                <div class="inner-card p-5 text-center card-hover">
+                    <i class="fa-solid fa-people-group accent-red text-4xl"></i>
+                    <h3 class="font-bold text-xl mt-3">Community Action</h3>
+                    <p class="muted text-sm mt-2">Encourage citizens and policymakers to support responsible industrial resource use.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="tab-about" class="tab-content space-y-6">
+        <div class="dark-card p-6 sm:p-9 space-y-7">
+            <h1 class="heading text-4xl font-black">About the Problem: 5 Whys Analysis</h1>
+
+            <div class="inner-card p-6 border-l-4" style="border-left-color:var(--blue)">
+                <span class="pill" style="background:#55c7ff22;color:var(--blue)">Problem Statement</span>
+                <p class="font-bold text-lg mt-2">
+                    Local communities and residents are facing severe water shortages due to the operation of high-density Artificial Intelligence data centers.
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="inner-card p-6 card-hover">
+                    <span class="pill" style="background:#55c7ff22;color:var(--blue)">Why #1 • Direct Cause</span>
+                    <h3 class="font-bold text-xl mt-3">1. Why are local water supplies running dangerously low around AI data centers?</h3>
+                    <p class="muted mt-3">Because Artificial Intelligence data centers consume millions of gallons of water daily so their GPUs don't overheat.</p>
+                </div>
+                <div class="text-center accent-blue text-3xl">↓</div>
+                <div class="inner-card p-6 card-hover">
+                    <span class="pill" style="background:#55c7ff22;color:var(--blue)">Why #2 • Natural Impact</span>
+                    <h3 class="font-bold text-xl mt-3">2. Why is AI cooling water usage causing such a huge environmental problem?</h3>
+                    <p class="muted mt-3">Because the water they consume comes directly from our natural water resources, such as local aquifers and freshwater tables.</p>
+                </div>
+                <div class="text-center accent-yellow text-3xl">↓</div>
+                <div class="inner-card p-6 card-hover">
+                    <span class="pill" style="background:#ffdf6522;color:var(--yellow)">Why #3 • Domestic Strain</span>
+                    <h3 class="font-bold text-xl mt-3">3. Why does using natural water for cooling threaten local communities?</h3>
+                    <p class="muted mt-3">Because this heavy water consumption permanently drains local natural water resources, leaving less freshwater available for everyday residential and domestic use.</p>
+                </div>
+                <div class="text-center accent-orange text-3xl">↓</div>
+                <div class="inner-card p-6 card-hover">
+                    <span class="pill" style="background:#ffad6922;color:var(--orange)">Why #4 • Utility Favoritism</span>
+                    <h3 class="font-bold text-xl mt-3">4. Why are data centers allowed to draw so much water from local municipal supplies?</h3>
+                    <p class="muted mt-3">Because water utilities favor high-revenue corporate contracts over environmental conservation, even when local supplies run low.</p>
+                </div>
+                <div class="text-center accent-red text-3xl">↓</div>
+                <div class="rounded-2xl p-6 card-hover" style="background:#3b2438;border:2px solid var(--red)">
+                    <span class="pill" style="background:var(--red);color:#121c2d">Why #5 • Root Cause</span>
+                    <h3 class="font-bold text-xl mt-3">5. Why do water utilities prioritize corporate data center contracts over community conservation?</h3>
+                    <p class="mt-3">Because local policies and regulations lack strict limits on industrial water use, allowing rapid tech growth to outpace nature and community needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINDINGS -->
+    <section id="tab-findings" class="tab-content">
+        <div class="dark-card p-6 sm:p-9 space-y-7">
+            <h1 class="heading text-4xl font-black">Research Findings</h1>
+            <div class="flex flex-wrap justify-between items-center gap-3">
+                <h2 class="heading text-2xl sm:text-3xl font-bold accent-yellow">Historical Parallel: The Atomic & Aluminum Boom (1940s–1960s)</h2>
+                <span class="pill" style="background:#ffdf6522;color:var(--yellow)">Comparative Study</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-5">
+                <article class="inner-card p-5 space-y-4 card-hover">
+                    <div class="image-wrap">
+                        <img class="photo" loading="lazy"
+                        src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=900&q=85"
+                        alt="Industrial factory and infrastructure"
+                        onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=85'">
+                    </div>
+                    <span class="pill" style="background:#ffdf6522;color:var(--yellow)">1945 Industrial Surge</span>
+                    <h3 class="font-bold text-xl">Atomic Age Over-Extraction</h3>
+                    <p class="muted">The Trinity test in 1945 triggered massive demand for nuclear power and aluminum production (1.25M tons in 1944). It caused severe resource strain and government distrust.</p>
+                </article>
+
+                <article class="inner-card p-5 space-y-4 card-hover">
+                    <div class="image-wrap">
+                        <img class="photo" loading="lazy"
+                        src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=85"
+                        alt="Modern data center server racks"
+                        onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=900&q=85'">
+                    </div>
+                    <span class="pill" style="background:#ff777e22;color:var(--red)">Modern Parallel</span>
+                    <h3 class="font-bold text-xl">Unchecked AI Supercomputing</h3>
+                    <p class="muted">Just like the mid-century aluminum boom, AI infrastructure is expanding faster than local power grids and water supplies can adapt, causing major resource conflicts.</p>
+                </article>
+            </div>
+
+            <div class="hero-banner">
+                <h3 class="heading text-2xl font-black">What does history teach us?</h3>
+                <p class="mt-2">Rapid industrial growth can bring innovation and progress, but it can also place pressure on natural resources and communities. Responsible development must consider these effects.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPACT -->
+    <section id="tab-impact" class="tab-content">
+        <div class="dark-card p-6 sm:p-9 space-y-8">
+            <h1 class="heading text-4xl font-black">Impact Analysis: Present-Day Crisis</h1>
+
+            <div class="space-y-4">
+                <h2 class="heading text-2xl font-bold accent-orange">🇵🇭 1. Impact on People in the Philippines</h2>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="inner-card p-5 card-hover">
+                        <i class="fa-solid fa-bolt accent-yellow text-3xl"></i>
+                        <h3 class="font-bold text-xl mt-3">Spiking Electricity Rates</h3>
+                        <p class="muted mt-2">Energy accounts for 65% of operational costs. In the Philippines, high fossil fuel import costs mean data center demand drives consumer tariffs even higher.</p>
+                    </div>
+                    <div class="inner-card p-5 card-hover">
+                        <i class="fa-solid fa-droplet accent-blue text-3xl"></i>
+                        <h3 class="font-bold text-xl mt-3">Freshwater Competition</h3>
+                        <p class="muted mt-2">Data center hubs in Metro Manila, Cavite, and Laguna compete directly with households for tap water during dry seasons.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-600 pt-7 space-y-5">
+                <h2 class="heading text-2xl font-bold accent-blue">2. Impact on Other Countries</h2>
+
+                <article class="inner-card p-5 space-y-4 card-hover">
+                    <h3 class="font-bold text-2xl accent-red">🇺🇸 United States (Virginia & Sunbelt)</h3>
+                    <p class="muted">Data centers in Loudoun County consumed nearly 900 million gallons of water in a single year. In Oregon and Georgia, power companies pass grid expansion costs onto residential utility bills, forcing 10% to 20% rate hikes.</p>
+                    <div class="image-wrap">
+                        <img class="photo photo-tall" loading="lazy"
+                        src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85"
+                        alt="Data center server facility"
+                        onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=85'">
+                    </div>
+                </article>
+
+                <article class="inner-card p-5 space-y-4 card-hover">
+                    <h3 class="font-bold text-2xl accent-blue">🇮🇩 Indonesia (West Java)</h3>
+                    <p class="muted">Construction of a 640MW AI data center campus was halted following intense local protests. Heavy freshwater extraction directly threatened local irrigation canals and domestic wells.</p>
+                    <div class="image-wrap">
+                        <img class="photo photo-tall" loading="lazy"
+                        src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85"
+                        alt="Green agricultural landscape"
+                        onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=85'">
+                    </div>
+                </article>
+            </div>
+
+            <div class="border-t border-slate-600 pt-7 space-y-5">
+                <h2 class="heading text-2xl font-bold accent-yellow">3. Direct Hazards to Communities</h2>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="inner-card p-5 card-hover">
+                        <i class="fa-solid fa-plug-circle-xmark accent-red text-2xl"></i>
+                        <h3 class="font-bold mt-2">Power Outages</h3>
+                        <p class="muted text-sm">Continuous high energy draw increases brownout risks during peak heatwaves.</p>
+                    </div>
+                    <div class="inner-card p-5 card-hover">
+                        <i class="fa-solid fa-faucet-drip accent-blue text-2xl"></i>
+                        <h3 class="font-bold mt-2">Drying Up Water Wells</h3>
+                        <p class="muted text-sm">Pumping groundwater lowers water tables, leaving farm and residential wells empty.</p>
+                    </div>
+                    <div class="inner-card p-5 card-hover">
+                        <i class="fa-solid fa-smog accent-orange text-2xl"></i>
+                        <h3 class="font-bold mt-2">Diesel Generator Air Pollution</h3>
+                        <p class="muted text-sm">Large backup generators emit pollutants during power grid failures.</p>
+                    </div>
+                    <div class="inner-card p-5 card-hover">
+                        <i class="fa-solid fa-users accent-yellow text-2xl"></i>
+                        <h3 class="font-bold mt-2">Minimal Local Employment</h3>
+                        <p class="muted text-sm">Massive resource consumption may create relatively few permanent staff positions for local communities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REFERENCES -->
+    <section id="tab-references" class="tab-content">
+        <div class="dark-card p-6 sm:p-9 space-y-6">
+            <h1 class="heading text-4xl font-black">References & Sources</h1>
+            <p class="muted">Select a source to open the original webpage. Hover over any reference to see an instant card preview.</p>
+
+            <div class="source-card">
+                <div class="preview-trigger-wrap w-full">
+                    <a href="https://thebulletin.org/premium/2020-12/1947-how-the-american-people-feel-about-the-atomic-bomb/" target="_blank" rel="noopener noreferrer">
+                        Bulletin of the Atomic Scientists — 1947: How the American People Feel About the Atomic Bomb
+                        <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i>
+                    </a>
+                    <div class="preview-card">
+                        <img class="preview-thumb" src="https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=600&q=80" alt="Preview thumbnail">
+                        <div class="text-xs font-bold text-sky-400 uppercase">thebulletin.org</div>
+                        <div class="text-sm font-black text-white mt-1">Atomic Age Sentiments</div>
+                        <div class="text-xs muted mt-1">Historical public poll data following early industrial energy & nuclear deployment.</div>
+                    </div>
+                </div>
+                <p class="muted text-sm mt-2">Historical survey and public sentiment following the atomic era.</p>
+            </div>
+
+            <div class="source-card">
+                <div class="preview-trigger-wrap w-full">
+                    <a href="https://montana-aluminum.com/timelines-2/timeline-iii-the-expansion-years/" target="_blank" rel="noopener noreferrer">
+                        Montana Aluminum Timeline — Timeline III: The Expansion Years
+                        <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i>
+                    </a>
+                    <div class="preview-card">
+                        <img class="preview-thumb" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Preview thumbnail">
+                        <div class="text-xs font-bold text-amber-400 uppercase">montana-aluminum.com</div>
+                        <div class="text-sm font-black text-white mt-1">Aluminum Industrial Surge</div>
+                        <div class="text-xs muted mt-1">Details mid-century industrial expansion and heavy electrical power consumption.</div>
+                    </div>
+                </div>
+                <p class="muted text-sm mt-2">Historical information about industrial and aluminum production expansion.</p>
+            </div>
+
+            <div class="source-card">
+                <div class="preview-trigger-wrap w-full">
+                    <a href="https://www.manilatimes.net/2026/10/07/business/top-business/ph-outlier-in-east-asia-world-bank/2440360" target="_blank" rel="noopener noreferrer">
+                        Manila Times — Philippines and East Asia Report
+                        <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i>
+                    </a>
+                    <div class="preview-card">
+                        <img class="preview-thumb" src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80" alt="Preview thumbnail">
+                        <div class="text-xs font-bold text-sky-400 uppercase">manilatimes.net</div>
+                        <div class="text-sm font-black text-white mt-1">PH Economic Report</div>
+                        <div class="text-xs muted mt-1">Analysis of domestic tariff pressures and regional energy grid infrastructure.</div>
+                    </div>
+                </div>
+                <p class="muted text-sm mt-2">Philippine economic and energy-cost context.</p>
+            </div>
+
+            <div class="source-card">
+                <div class="preview-trigger-wrap w-full">
+                    <a href="https://bankero.com.ph/world-bank-trims-philippines-2026-growth-forecast-to-3-7-cites-policy-uncertainty-and-higher-energy-costs/main-news/" target="_blank" rel="noopener noreferrer">
+                        Bankero — World Bank Trims Philippines Growth Forecast, Cites Energy Costs
+                        <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i>
+                    </a>
+                    <div class="preview-card">
+                        <img class="preview-thumb" src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=80" alt="Preview thumbnail">
+                        <div class="text-xs font-bold text-amber-400 uppercase">bankero.com.ph</div>
+                        <div class="text-sm font-black text-white mt-1">Energy Growth Forecast</div>
+                        <div class="text-xs muted mt-1">Focuses on residential electrical rate impacts and grid expansion overhead.</div>
+                    </div>
+                </div>
+                <p class="muted text-sm mt-2">Philippine energy costs and economic context.</p>
+            </div>
+
+            <div class="source-card">
+                <div class="preview-trigger-wrap w-full">
+                    <a href="https://en.antaranews.com/amp/news/435148/minister-ahy-urges-green-compliance-as-w-java-halts-ai-data-center" target="_blank" rel="noopener noreferrer">
+                        Antara News — Minister Urges Green Compliance as West Java Halts AI Data Center
+                        <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i>
+                    </a>
+                    <div class="preview-card">
+                        <img class="preview-thumb" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80" alt="Preview thumbnail">
+                        <div class="text-xs font-bold text-emerald-400 uppercase">antaranews.com</div>
+                        <div class="text-sm font-black text-white mt-1">West Java Project Suspension</div>
+                        <div class="text-xs muted mt-1">Covers community protests regarding agricultural canal protection and water tables.</div>
+                    </div>
+                </div>
+                <p class="muted text-sm mt-2">Report on the West Java AI data center project and environmental concerns.</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside class="lg:col-span-4 space-y-5">
+    <div class="dark-card p-6 space-y-5 sidebar sticky top-32">
+        <h2 class="heading text-2xl font-black">
+            <i class="fa-solid fa-compass accent-blue mr-2"></i> Quick Navigation
+        </h2>
+
+        <div class="space-y-2">
+            <button onclick="switchTab('home')" class="w-full text-left sound-btn">🏠 Home Dashboard</button>
+            <button onclick="switchTab('mission')" class="w-full text-left sound-btn">✨ Our Mission</button>
+            <button onclick="switchTab('about')" class="w-full text-left sound-btn">💧 About the Problem</button>
+            <button onclick="switchTab('findings')" class="w-full text-left sound-btn">📊 Research Findings</button>
+            <button onclick="switchTab('impact')" class="w-full text-left sound-btn">🌎 Impact Analysis</button>
+            <button onclick="switchTab('references')" class="w-full text-left sound-btn">📖 References & Sources</button>
+        </div>
+
+        <div class="border-t border-slate-600 pt-5 space-y-3">
+            <h3 class="font-bold text-xl">External Resources</h3>
+            <div class="preview-trigger-wrap block">
+                <a class="accent-blue block text-sm hover:underline" href="https://www.manilatimes.net/2026/10/07/business/top-business/ph-outlier-in-east-asia-world-bank/2440360" target="_blank" rel="noopener noreferrer">Manila Times East Asia Report ↗</a>
+                <div class="preview-card">
+                    <img class="preview-thumb" src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80" alt="Preview thumbnail">
+                    <div class="text-xs font-bold text-sky-400 uppercase">manilatimes.net</div>
+                    <div class="text-sm font-black text-white mt-1">World Bank Report</div>
+                    <div class="text-xs muted mt-1">Regional analysis of power generation costs and inflation indicators.</div>
+                </div>
+            </div>
+
+            <div class="preview-trigger-wrap block">
+                <a class="accent-blue block text-sm hover:underline" href="https://en.antaranews.com/amp/news/435148/minister-ahy-urges-green-compliance-as-w-java-halts-ai-data-center" target="_blank" rel="noopener noreferrer">Antara Environmental Report ↗</a>
+                <div class="preview-card">
+                    <img class="preview-thumb" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80" alt="Preview thumbnail">
+                    <div class="text-xs font-bold text-emerald-400 uppercase">antaranews.com</div>
+                    <div class="text-sm font-black text-white mt-1">West Java AI Halt</div>
+                    <div class="text-xs muted mt-1">Detailed news covering community protests and groundwater protection.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rounded-2xl p-5" style="background:#253852">
+            <i class="fa-solid fa-lightbulb accent-yellow text-2xl"></i>
+            <h3 class="font-bold text-lg mt-2">Think Before You Innovate</h3>
+            <p class="muted text-sm mt-2">Technology should improve lives without overlooking the needs of people and the environment.</p>
+        </div>
+    </div>
+</aside>
+
+</div>
+
+<footer class="text-center p-8 mt-10" style="background:#1d2b3e;border-top:1px solid #3c5478">
+    <p class="font-bold">RE:NEXUS • The connection point of rebirth</p>
+    <p class="muted text-sm">Section 8-1 Academic Project</p>
+    <p class="muted text-sm mt-2">Alyanna Corpuz • Heidi Laude • Angelica Pardo • Jada Nicolas • Mhyrtyl Payo • Luiz Jacob Cruz</p>
+    <div class="mt-4 space-y-2 text-sm">
+        <p><i class="fa-solid fa-envelope accent-blue mr-2"></i><a class="accent-blue hover:underline" href="mailto:ap.alyannarobelle.corpuz@apecschool.edu.ph">ap.alyannarobelle.corpuz@apecschool.edu.ph</a></p>
+        <p><i class="fa-solid fa-phone accent-blue mr-2"></i><a class="accent-blue hover:underline" href="tel:09670335204">09670335204</a></p>
+        <p class="muted">Section 8-1 Academic Project</p>
+    </div>
+    <p class="muted text-xs mt-4">An academic project about AI data center expansion and environmental awareness.</p>
+</footer>
+
+<script>
+// Define all functions globally first
+const tabs = ["home","mission","about","findings","impact","references"];
+const tabNames = {
+    home:"Home Dashboard",
+    mission:"Our Mission",
+    about:"About the Problem",
+    findings:"Research Findings",
+    impact:"Impact Analysis",
+    references:"References & Sources"
+};
+
+let currentTabIndex = 0;
+
+function updateQuickNav() {
+    const label = document.getElementById("current-tab-label");
+    if(label) label.textContent = tabNames[tabs[currentTabIndex]];
+}
+
+function switchTab(tabId) {
+    if (!tabs.includes(tabId)) return;
+    currentTabIndex = tabs.indexOf(tabId);
+
+    tabs.forEach(tab => {
+        const section = document.getElementById("tab-" + tab);
+        if(section) section.classList.toggle("active", tab === tabId);
+
+        const desktopButton = document.getElementById("btn-" + tab);
+        const mobileButton = document.getElementById("mobile-" + tab);
+
+        if (desktopButton) desktopButton.classList.toggle("active-tab", tab === tabId);
+        if (mobileButton) mobileButton.classList.toggle("active-tab", tab === tabId);
+    });
+
+    updateQuickNav();
+    window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function navigateTab(direction) {
+    currentTabIndex = (currentTabIndex + direction + tabs.length) % tabs.length;
+    switchTab(tabs[currentTabIndex]);
+}
+
+const quizQuestions = [
+ {q:"How much water can a large AI data center use for cooling?",a:["A few hundred gallons","Millions of gallons in some facilities","Only rainwater","No water at all"],correct:1,why:"Some large facilities can use millions of gallons of water, depending on their size and cooling system."},
+ {q:"Where can data centers get water for cooling?",a:["Only from the ocean","Only from bottled water","Local freshwater sources and municipal supplies","Only from melted snow"],correct:2,why:"Facilities may rely on local freshwater sources or municipal water systems."},
+ {q:"Why can data centers affect electricity bills?",a:["They increase electricity demand and may require grid upgrades","They create unlimited free electricity","They stop homes from using power","They make electricity demand disappear"],correct:0,why:"Higher demand and infrastructure upgrades can put pressure on local electricity systems and costs."},
+ {q:"Do environmental policies always keep up with rapid technology expansion?",a:["Yes, every new technology is instantly regulated","No, policies can lag behind technological growth","Policies never apply to technology","Only schools create these policies"],correct:1,why:"Rules and oversight can take time to catch up with fast-growing industries."},
+ {q:"What can help make AI development more sustainable?",a:["Ignoring environmental effects","Using resources without limits","Avoiding all research","Using resources responsibly and supporting efficient technology"],correct:3,why:"Responsible resource use and more efficient technology can help reduce environmental pressure."}
+];
+
+let quizIndex=0, quizScore=0, quizCorrect=0, quizLocked=false, quizCountdown=null, quizTime=15;
+const answerColors=["#ef6681","#438fe0","#e9b94f","#35b89a"];
+const answerIcons=["▲","◆","●","■"];
+
+function startQuiz(){
+  const intro = document.getElementById("quiz-intro");
+  const play = document.getElementById("quiz-play");
+  if(intro) intro.classList.add("hidden");
+  if(play) play.classList.remove("hidden");
+
+  if(!audioContext) initAudio();
+  if(audioContext && audioContext.state==="suspended") audioContext.resume();
+  if(!musicOn) toggleMusic();
+
+  quizIndex=0; quizScore=0; quizCorrect=0;
+  showQuizQuestion();
+}
+
+function showQuizQuestion(){
+  clearInterval(quizCountdown);
+  quizLocked=false;
+  quizTime=15;
+  const item=quizQuestions[quizIndex];
+
+  document.getElementById("quiz-question-text").textContent=item.q;
+  document.getElementById("quiz-progress-text").textContent=`Question ${quizIndex+1} of ${quizQuestions.length}`;
+  document.getElementById("quiz-progress-bar").style.width=((quizIndex)/quizQuestions.length*100)+"%";
+  document.getElementById("quiz-score-live").textContent=`⭐ ${quizScore} pts`;
+  document.getElementById("quiz-timer").textContent=`⏱ ${quizTime}`;
+  document.getElementById("quiz-feedback").textContent="Choose your answer!";
+  document.getElementById("quiz-next").classList.add("hidden");
+
+  const box=document.getElementById("quiz-answers");
+  box.innerHTML="";
+
+  item.a.forEach((answer,i)=>{
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="quiz-answer";
+    button.style.background=answerColors[i];
+    button.innerHTML=`<span class="quiz-answer-icon">${answerIcons[i]}</span><span>${answer}</span>`;
+    button.onclick = function() { chooseQuizAnswer(i, button); };
+    box.appendChild(button);
+  });
+
+  quizCountdown=setInterval(()=>{
+    quizTime--;
+    document.getElementById("quiz-timer").textContent=`⏱ ${quizTime}`;
+    if(quizTime<=0){
+      clearInterval(quizCountdown);
+      chooseQuizAnswer(-1,null);
+    }
+  },1000);
+}
+
+function chooseQuizAnswer(choice,chosenButton){
+  if(quizLocked)return;
+  quizLocked=true;
+  clearInterval(quizCountdown);
+
+  const item=quizQuestions[quizIndex];
+  const buttons=[...document.querySelectorAll(".quiz-answer")];
+
+  buttons.forEach((b,i)=>{
+    b.disabled=true;
+    if(i===item.correct) b.classList.add("answer-correct");
+  });
+
+  const feedback=document.getElementById("quiz-feedback");
+  if(choice===item.correct){
+    quizCorrect++;
+    quizScore+=Math.max(500,quizTime*100);
+    feedback.textContent="🎉 Correct! "+item.why;
+    feedback.style.color="#9ff2c8";
+    playAnswerSound(true);
+  } else {
+    if(chosenButton) chosenButton.classList.add("answer-wrong");
+    feedback.textContent=(choice===-1?"⏰ Time's up! ":"Not quite! ")+item.why;
+    feedback.style.color="#ffe477";
+    playAnswerSound(false);
+  }
+
+  document.getElementById("quiz-score-live").textContent=`⭐ ${quizScore} pts`;
+  document.getElementById("quiz-progress-bar").style.width=((quizIndex+1)/quizQuestions.length*100)+"%";
+
+  const next=document.getElementById("quiz-next");
+  next.textContent=quizIndex===quizQuestions.length-1?"SEE MY RESULT 🎉":"NEXT QUESTION ➜";
+  next.classList.remove("hidden");
+}
+
+function nextQuizQuestion(){
+  quizIndex++;
+  if(quizIndex<quizQuestions.length){
+    showQuizQuestion();
+  } else {
+    document.getElementById("quiz-play").classList.add("hidden");
+    document.getElementById("quiz-result").classList.remove("hidden");
+    document.getElementById("quiz-emoji").textContent=quizCorrect===5?"🏆":quizCorrect>=3?"🎉":"🌱";
+    document.getElementById("quiz-score").textContent=`${quizCorrect} / 5 CORRECT • ${quizScore.toLocaleString()} POINTS`;
+    document.getElementById("quiz-message").textContent=quizCorrect===5?"Perfect round! You're an AI awareness champion.":quizCorrect>=3?"Great job! Explore the website to learn even more.":"Good effort! The website is here to help you learn more.";
+    launchConfetti();
+    playCelebration();
+  }
+}
+
+async function enterSite() {
+    const modal = document.getElementById("survey-modal");
+    if(modal) {
+        modal.style.opacity = "0";
+        setTimeout(() => { modal.style.display = "none"; }, 300);
+    }
+    
+    const badge = document.getElementById("survey-result-badge");
+    if(badge) badge.classList.remove("hidden");
+
+    if (!audioContext) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) audioContext = new AudioContextClass();
+    }
+
+    if (audioContext && audioContext.state === "suspended") {
+        await audioContext.resume();
+    }
+
+    if (!musicOn) await toggleMusic();
+    window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function launchConfetti() {
+    const canvas = document.getElementById("confetti-canvas");
+    if(!canvas) return;
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const colors = ["#55c7ff","#ffdf65","#ffad69","#ff777e","#a9a2ff","#ffffff"];
+    const pieces = [];
+
+    for (let i = 0; i < 180; i++) {
+        pieces.push({
+            x: Math.random() * canvas.width,
+            y: -Math.random() * canvas.height,
+            size: Math.random() * 9 + 4,
+            speed: Math.random() * 4 + 2,
+            drift: Math.random() * 3 - 1.5,
+            rotation: Math.random() * 360,
+            color: colors[Math.floor(Math.random() * colors.length)]
+        });
+    }
+
+    let frame = 0;
+    function animate() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        pieces.forEach(p => {
+            p.y += p.speed;
+            p.x += p.drift;
+            p.rotation += 4;
+
+            ctx.save();
+            ctx.translate(p.x,p.y);
+            ctx.rotate(p.rotation * Math.PI / 180);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*.65);
+            ctx.restore();
+        });
+
+        frame++;
+        if (frame < 180) requestAnimationFrame(animate);
+        else ctx.clearRect(0,0,canvas.width,canvas.height);
+    }
+    animate();
+}
+
+let audioContext=null, musicOn=false, musicTimer=null, musicStep=0;
+const leadMelody = [523.25, 659.25, 783.99, 1046.50, 880.00, 987.77, 783.99, 1174.66, 1046.50, 880.00, 783.99, 659.25, 783.99, 987.77, 1174.66, 1318.51];
+const subBassline = [65.41, 65.41, 87.31, 87.31, 98.00, 98.00, 65.41, 98.00];
+
+function initAudio(){
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(AC&&!audioContext) audioContext=new AC();
+}
+
+function playTone(freq, duration=.18, volume=.05, type="sawtooth", delay=0, cutoff=2400){
+ if(!audioContext||!musicOn)return;
+ const t=audioContext.currentTime+delay;
+ const osc=audioContext.createOscillator();
+ const gain=audioContext.createGain();
+ const filter=audioContext.createBiquadFilter();
+ 
+ osc.type=type;
+ osc.frequency.setValueAtTime(freq,t);
+ filter.type="lowpass";
+ filter.frequency.setValueAtTime(cutoff,t);
+ 
+ gain.gain.setValueAtTime(.0001,t);
+ gain.gain.linearRampToValueAtTime(volume,t+.015);
+ gain.gain.exponentialRampToValueAtTime(.0001,t+duration);
+ 
+ osc.connect(filter);
+ filter.connect(gain);
+ gain.connect(audioContext.destination);
+ 
+ osc.start(t);
+ osc.stop(t+duration+.04);
+}
+
+function musicTick(){
+ if(!musicOn)return;
+ const n = leadMelody[musicStep % leadMelody.length];
+ const bassN = subBassline[Math.floor(musicStep / 2) % subBassline.length];
+ 
+ playTone(n, .19, .03, "square", 0, 2200);
+ playTone(n / 2, .22, .025, "triangle", 0, 1400);
+ playTone(bassN, .32, .085, "sine", 0, 150);
+ playTone(bassN * 2, .24, .04, "triangle", 0, 350);
+ 
+ if(musicStep % 4 === 0){
+    playTone(130.81, .28, .05, "sine", 0, 180);
+ }
+ musicStep++;
+}
+
+function playAnswerSound(correct){
+  if(!audioContext||!musicOn)return;
+  const notes = correct ? [523, 659, 784, 1046] : [330, 277, 220];
+  notes.forEach((n,i) => playTone(n, .22, .07, "triangle", i*.1, 3000));
+}
+
+async function toggleMusic() {
+    initAudio();
+    if (!audioContext) { alert("Your browser does not support background audio."); return; }
+    if (audioContext.state === "suspended") await audioContext.resume();
+
+    musicOn = !musicOn;
+    const button = document.getElementById("sound-toggle");
+
+    if (musicOn) {
+        if(button) {
+            button.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+            button.title = "Turn music off";
+        }
+        musicTick();
+        musicTimer = setInterval(musicTick, 190);
+    } else {
+        if(button) {
+            button.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+            button.title = "Turn music on";
+        }
+        clearInterval(musicTimer);
+    }
+}
+
+function playCelebration() {
+    if (!audioContext || !musicOn) return;
+    [523, 659, 784, 1046].forEach((note,i) => {
+        playTone(note, .38, .07, "triangle", i*.12, 3500);
+    });
+}
+
+let isRealWorld = false;
+function toggleUnits() {
+    const stats = [
+        document.getElementById("stat-1"),
+        document.getElementById("stat-2"),
+        document.getElementById("stat-3")
+    ];
+
+    const descriptions = [
+        document.getElementById("stat-desc-1"),
+        document.getElementById("stat-desc-2"),
+        document.getElementById("stat-desc-3")
+    ];
+
+    if (!isRealWorld) {
+        if(stats[0]) stats[0].textContent = "2/3 Budget";
+        if(descriptions[0]) descriptions[0].textContent = "Of facility operating costs go to energy";
+
+        if(stats[1]) stats[1].textContent = "1,360 Pools";
+        if(descriptions[1]) descriptions[1].textContent = "Equivalent to 1,360 Olympic pools emptied annually";
+
+        if(stats[2]) stats[2].textContent = "+300–500";
+        if(descriptions[2]) descriptions[2].textContent = "Estimated added annual household utility costs";
+
+        const label = document.getElementById("toggle-label");
+        if(label) label.textContent = "Standard statistics";
+    } else {
+        if(stats[0]) stats[0].textContent = "65%";
+        if(descriptions[0]) descriptions[0].textContent = "Operating budget spent on power";
+
+        if(stats[1]) stats[1].textContent = "900M Gal";
+        if(descriptions[1]) descriptions[1].textContent = "Annual freshwater consumption per hub";
+
+        if(stats[2]) stats[2].textContent = "+10–20%";
+        if(descriptions[2]) descriptions[2].textContent = "Residential electric tariff hike";
+
+        const label = document.getElementById("toggle-label");
+        if(label) label.textContent = "Real-world comparison";
+    }
+    isRealWorld = !isRealWorld;
+}
+
+// Bind methods explicitly to window so online compilers & direct clicks find them instantly
+window.switchTab = switchTab;
+window.navigateTab = navigateTab;
+window.toggleMusic = toggleMusic;
+window.toggleUnits = toggleUnits;
+window.startQuiz = startQuiz;
+window.nextQuizQuestion = nextQuizQuestion;
+window.enterSite = enterSite;
+
+document.addEventListener("DOMContentLoaded", () => {
+    updateQuickNav();
+});
+
+window.addEventListener("resize", () => {
+    const canvas = document.getElementById("confetti-canvas");
+    if(canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+});
+</script>
+</body>
+</html>
